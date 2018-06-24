@@ -13,7 +13,7 @@ public class CarsRepository {
 	@Autowired
 	private JdbcTemplate _jdbcTemplate;
 	
-	public Car findByKey(String key) {	
+	public Car getCarInfo(String key) {	
 		
 		Car car = null;
 		List<Car> result = _jdbcTemplate.query("SELECT * FROM mpg_data WHERE data_key = ?",
@@ -25,7 +25,7 @@ public class CarsRepository {
 			car = null;
 		}
 		
-		//Cool bean way
+		//Cool bean way ;)
 		//Leaving this here for future reference
 	    //car = (Car) _jdbcTemplate.queryForObject("SELECT * FROM mpg_data WHERE data_key = ?",  new BeanPropertyRowMapper(Car.class), key);
 		
@@ -36,6 +36,17 @@ public class CarsRepository {
 		List<String> result = _jdbcTemplate.queryForList("SELECT make FROM mpg_data", String.class);
 		return result;
 	}
+	
+	public List<String> getModels(String make){
+		List<String> result = _jdbcTemplate.queryForList("SELECT model FROM mpg_data WHERE make = ?", String.class, make);
+		return result;
+	}
+	
+	public List<Integer> getYears(String make, String model){
+		List<Integer> result = _jdbcTemplate.queryForList("SELECT year FROM mpg_data WHERE make = ? AND model = ?", Integer.class, make, model);
+		return result;
+	}
+	
 	
 	
 }
