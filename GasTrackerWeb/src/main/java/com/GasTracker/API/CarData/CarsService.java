@@ -11,12 +11,22 @@ public class CarsService implements ICarsService{
 	@Autowired
 	private CarsRepository _carsRepo;
 	
-	public Car findByKey(String key) {
-		return _carsRepo.findByKey(key);
+	public Car getCarInfo(String key) {
+		return _carsRepo.getCarInfo(key);
 	}
 	
 	public List<String> getMakes(){
 		return _carsRepo.getMakes();
+	}
+
+
+	public List<String> getModels(String make) {
+		return _carsRepo.getModels(make);
+	}
+
+
+	public List<Integer> getYears(String make, String model) {
+		return _carsRepo.getYears(make, model);
 	}
 	
 }
