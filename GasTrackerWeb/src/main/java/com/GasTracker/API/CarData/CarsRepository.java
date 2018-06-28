@@ -33,17 +33,17 @@ public class CarsRepository {
 	}
 	
 	public List<String> getMakes(){
-		List<String> result = _jdbcTemplate.queryForList("SELECT make FROM mpg_data", String.class);
+		List<String> result = _jdbcTemplate.queryForList("SELECT DISTINCT make FROM mpg_data", String.class);
 		return result;
 	}
 	
 	public List<String> getModels(String make){
-		List<String> result = _jdbcTemplate.queryForList("SELECT model FROM mpg_data WHERE make = ?", String.class, make);
+		List<String> result = _jdbcTemplate.queryForList("SELECT DISTINCT model FROM mpg_data WHERE make = ?", String.class, make);
 		return result;
 	}
 	
 	public List<Integer> getYears(String make, String model){
-		List<Integer> result = _jdbcTemplate.queryForList("SELECT year FROM mpg_data WHERE make = ? AND model = ?", Integer.class, make, model);
+		List<Integer> result = _jdbcTemplate.queryForList("SELECT DISTINCT year FROM mpg_data WHERE make = ? AND model = ?", Integer.class, make, model);
 		return result;
 	}
 	
