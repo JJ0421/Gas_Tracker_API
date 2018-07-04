@@ -1,5 +1,6 @@
 package com.GasTracker.API.CarData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,17 +34,38 @@ public class CarsRepository {
 	}
 	
 	public List<String> getMakes(){
-		List<String> result = _jdbcTemplate.queryForList("SELECT make FROM mpg_data", String.class);
+		List<String> result = _jdbcTemplate.queryForList("SELECT DISTINCT make FROM mpg_data ORDER BY make ASC", String.class);
 		return result;
 	}
 	
 	public List<String> getModels(String make){
-		List<String> result = _jdbcTemplate.queryForList("SELECT model FROM mpg_data WHERE make = ?", String.class, make);
+		List<String> result = _jdbcTemplate.queryForList("SELECT DISTINCT model FROM mpg_data WHERE make = ? ORDER BY model ASC", String.class, make);
 		return result;
 	}
 	
 	public List<Integer> getYears(String make, String model){
-		List<Integer> result = _jdbcTemplate.queryForList("SELECT year FROM mpg_data WHERE make = ? AND model = ?", Integer.class, make, model);
+		List<Integer> result = _jdbcTemplate.queryForList("SELECT DISTINCT year FROM mpg_data WHERE make = ? AND model = ? ORDER BY year ASC", Integer.class, make, model);
+		return result;
+	}
+	
+	public List<VehicleInfo> getAll(){
+		List<VehicleInfo> result = new ArrayList<VehicleInfo>();
+		List<String> makes = getMakes();
+		for(int i = 0; i < makes.size(); i++) {
+			VehicleInfo info = new VehicleInfo();
+			info.make = makes.get(i);
+			info.models = new ArrayList<ModelInfo>();
+			
+			List<String> models = getModels(makes.get(i));
+			for(int j = 0; j < models.size(); j++) {
+				ModelInfo modelInfo = new ModelInfo();
+				modelInfo.model = models.get(j);
+				modelInfo.years = getYears(makes.get(i), models.get(j));
+				info.models.add(modelInfo);
+			}
+			result.add(info);
+		}
+		
 		return result;
 	}
 	

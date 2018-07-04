@@ -33,4 +33,9 @@ public class CarsController implements ICarsController{
 		return _carsService.getYears(make,  model);
 	}
 	
+	@RequestMapping("/api/getAll")
+	public List<VehicleInfo> getAll(){
+		return _carsService.getAll();
+	}
+	
 }
