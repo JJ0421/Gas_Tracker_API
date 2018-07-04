@@ -29,4 +29,8 @@ public class CarsService implements ICarsService{
 		return _carsRepo.getYears(make, model);
 	}
 	
+	public List<VehicleInfo> getAll(){
+		return _carsRepo.getAll();
+	}
+	
 }
