@@ -15,7 +15,7 @@ public class CarsRepository {
 	private JdbcTemplate _jdbcTemplate;
 	
 	public Car getCarInfo(String key) {	
-		
+		key = key.replace('^', '/');
 		Car car = null;
 		List<Car> result = _jdbcTemplate.query("SELECT * FROM mpg_data WHERE data_key = ?",
 				(rs, rowNum) ->  new Car(rs.getInt("id"), rs.getString("manufacturer"), rs.getString("make"), rs.getString("model"), rs.getInt("city"), rs.getInt("hwy"), rs.getInt("cmb"), rs.getInt("year"), rs.getString("data_key")
